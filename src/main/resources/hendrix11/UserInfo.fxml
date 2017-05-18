@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<TableView xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="hendrix11.UserInfo"
+            fx:id="userTable" prefWidth="1500" maxWidth="1500" minWidth="1500">
+    <columns>
+        <TableColumn fx:id="count" text="Count Id" />
+        <TableColumn fx:id="userId" text="User Id" />
+        <TableColumn fx:id="verified" text="Verified" />
+        <TableColumn fx:id="followers" text="# Followers" />
+        <TableColumn fx:id="following" text="# Following" />
+        <TableColumn fx:id="screenName" text="Screen Name" />
+        <TableColumn fx:id="userName" text="User Name" />
+        <TableColumn fx:id="description" text="Description" maxWidth="500" />
+    </columns>
+</TableView>
