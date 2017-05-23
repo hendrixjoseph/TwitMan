@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -24,6 +25,8 @@ import java.util.Properties;
  */
 public class TwitMain extends Application {
 
+    @FXML
+    private TableView friendsTable;
     @FXML
     private VBox list;
 
@@ -72,9 +75,12 @@ public class TwitMain extends Application {
         Twitter twitter = joesGithubBlog();
         List<Long> followers = getFollowers(twitter);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("UserInfo.fxml"));
-        Parent userTable = loader.load();
-        UserInfo controller = loader.getController();
+        //FXMLLoader loader = new FXMLLoader(getClass().getResource("UserInfo.fxml"));
+        //Parent userTable = loader.load();
+        friendsTable
+        UserInfo controller = friendsTable;//loader.getController();
+
+
 
         //followers.forEach(follower -> {
         for(long follower : followers) {
@@ -87,7 +93,7 @@ public class TwitMain extends Application {
             }
         }//);
 
-        list.getChildren().add(userTable);
+        //list.getChildren().add(userTable);
     }
 
     private List<Long> getFollowers(Twitter twitter) {
