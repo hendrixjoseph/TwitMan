@@ -23,6 +23,30 @@ public class TwitUser {
         return user;
     }
 
+    public String getName() {
+        return user.getName();
+    }
+
+    public String getScreenName() {
+        return user.getScreenName();
+    }
+
+    public long getId() {
+        return user.getId();
+    }
+
+    public int getFollowersCount() {
+        return user.getFollowersCount();
+    }
+
+    public int getFriendsCount() {
+        return user.getFriendsCount();
+    }
+
+    public boolean isVerified() {
+        return user.isVerified();
+    }
+
     public int getNumber() {
         return number;
     }

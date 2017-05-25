@@ -26,7 +26,7 @@ import java.util.Properties;
 public class TwitMain extends Application {
 
     @FXML
-    private TableView friendsTable;
+    private UserInfo userInfoController;
     @FXML
     private VBox list;
 
@@ -75,12 +75,7 @@ public class TwitMain extends Application {
         Twitter twitter = joesGithubBlog();
         List<Long> followers = getFollowers(twitter);
 
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("UserInfo.fxml"));
-        //Parent userTable = loader.load();
-        friendsTable
-        UserInfo controller = friendsTable;//loader.getController();
-
-
+        UserInfo controller = userInfoController;
 
         //followers.forEach(follower -> {
         for(long follower : followers) {
@@ -92,8 +87,6 @@ public class TwitMain extends Application {
                 break;
             }
         }//);
-
-        //list.getChildren().add(userTable);
     }
 
     private List<Long> getFollowers(Twitter twitter) {

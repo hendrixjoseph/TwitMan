@@ -9,13 +9,13 @@
            fx:controller="hendrix11.UserInfo"
             fx:id="userTable" prefWidth="1500" maxWidth="1500" minWidth="1500">
     <columns>
-        <TableColumn fx:id="count" text="Count Id" />
-        <TableColumn fx:id="userId" text="User Id" />
+        <TableColumn fx:id="number" text="Count Id"  />
+        <TableColumn fx:id="id" text="User Id" />
         <TableColumn fx:id="verified" text="Verified" />
-        <TableColumn fx:id="followers" text="# Followers" />
-        <TableColumn fx:id="following" text="# Following" />
+        <TableColumn fx:id="followersCount" text="# Followers" />
+        <TableColumn fx:id="friendsCount" text="# Following" />
         <TableColumn fx:id="screenName" text="Screen Name" />
-        <TableColumn fx:id="userName" text="User Name" />
-        <TableColumn fx:id="description" text="Description" maxWidth="500" />
+        <TableColumn fx:id="name" text="User Name" />
+        <TableColumn fx:id="noNewlineDescription" text="Description" maxWidth="500" />
     </columns>
 </TableView>
