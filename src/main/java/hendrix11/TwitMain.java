@@ -26,9 +26,10 @@ import java.util.Properties;
 public class TwitMain extends Application {
 
     @FXML
-    private UserInfo userInfoController;
+    private UserInfo followingTableController;
+
     @FXML
-    private VBox list;
+    private UserInfo followerTableController;
 
     public static Twitter getTwitter(String key, String secret, String token, String tokenSecret) {
 
@@ -74,14 +75,24 @@ public class TwitMain extends Application {
     private void initialize() throws IOException {
         Twitter twitter = joesGithubBlog();
         List<Long> followers = getFollowers(twitter);
-
-        UserInfo controller = userInfoController;
+        List<Long> following = getFollowing(twitter);
 
         //followers.forEach(follower -> {
         for(long follower : followers) {
             try {
                 User user = twitter.showUser(follower);
-                controller.addUser(user);
+                followerTableController.addUser(user);
+            } catch (TwitterException e) {
+                e.printStackTrace();
+                break;
+            }
+        }//);
+
+        //followers.forEach(follower -> {
+        for(long follower : following) {
+            try {
+                User user = twitter.showUser(follower);
+                followingTableController.addUser(user);
             } catch (TwitterException e) {
                 e.printStackTrace();
                 break;
@@ -90,6 +101,25 @@ public class TwitMain extends Application {
     }
 
     private List<Long> getFollowers(Twitter twitter) {
+        long cursor2 = -1;
+        IDs friends;
+        List<Long> following = new ArrayList<>();
+        try {
+            //do {
+            friends = twitter.getFollowersIDs(cursor2);
+            for (long id : friends.getIDs()) {
+                following.add(id);
+            }
+            //} while ((cursor2 = friends.getNextCursor()) != 0);
+        } catch (TwitterException te) {
+            te.printStackTrace();
+            System.out.println("Failed to get friends' ids: " + te.getMessage());
+        }
+
+        return following.subList(0,10);
+    }
+
+    private List<Long> getFollowing(Twitter twitter) {
         long cursor2 = -1;
         IDs friends;
         List<Long> following = new ArrayList<>();

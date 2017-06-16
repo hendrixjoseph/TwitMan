@@ -1,21 +1,17 @@
 package hendrix11;
 
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleLongProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
-import javafx.util.Callback;
+import javafx.scene.input.MouseEvent;
 import twitter4j.User;
 
-import java.util.Date;
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Created by Joe on 5/8/2017.
@@ -28,6 +24,16 @@ public class UserInfo {
     @FXML
     private void initialize() {
         userTable.getColumns().forEach(this::setCellValueFactory);
+
+        userTable.setOnMousePressed(e -> {
+            if (e.isPrimaryButtonDown() && e.getClickCount() == 2) {
+                try {
+                    Desktop.getDesktop().browse(new URI(userTable.getSelectionModel().getSelectedItem().getTwitterUrl()));
+                } catch (URISyntaxException | IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
     }
 
     private void setCellValueFactory(TableColumn<TwitUser, ?> column) {

@@ -28,7 +28,11 @@ public class TwitUser {
     }
 
     public String getScreenName() {
-        return user.getScreenName();
+        return "@" + user.getScreenName();
+    }
+
+    public String getTwitterUrl() {
+        return "https://twitter.com/" + user.getScreenName();
     }
 
     public long getId() {
