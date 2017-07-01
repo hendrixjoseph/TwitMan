@@ -1,4 +1,4 @@
-package hendrix11;
+package hendrix11.wrapper;
 
 import twitter4j.Twitter;
 import twitter4j.User;
@@ -6,17 +6,20 @@ import twitter4j.User;
 /**
  * Created by Joe on 5/17/2017.
  */
-public class TwitUser {
+public class TwitUser implements MasterWrapper {
     private static int count = 0;
 
     private User user;
     private int number;
-    private String noNewlineDescription;
 
     public TwitUser(User user) {
         number = count++;
         this.user = user;
-        noNewlineDescription = user.getDescription().replaceAll("[\\r\\n]+"," ").trim();
+    }
+
+    public TwitUser(User user, int number) {
+        this.number = count = number;
+        this.user = user;
     }
 
     public User getUser() {
@@ -31,6 +34,7 @@ public class TwitUser {
         return "@" + user.getScreenName();
     }
 
+    @Override
     public String getTwitterUrl() {
         return "https://twitter.com/" + user.getScreenName();
     }
@@ -55,7 +59,7 @@ public class TwitUser {
         return number;
     }
 
-    public String getNoNewlineDescription() {
-        return noNewlineDescription;
+    public String getDescription() {
+        return user.getDescription().replaceAll("[\\r\\n]+"," ").trim();
     }
 }

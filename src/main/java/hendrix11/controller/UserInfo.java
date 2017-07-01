@@ -1,5 +1,6 @@
-package hendrix11;
+package hendrix11.controller;
 
+import hendrix11.wrapper.TwitUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -19,7 +20,7 @@ import java.net.URISyntaxException;
 /**
  * Created by Joe on 5/8/2017.
  */
-public class UserInfo {
+public class UserInfo extends TableHolder<TwitUser> {
 
     @FXML
     private Button verifiedFilterButton;
@@ -33,17 +34,7 @@ public class UserInfo {
 
     @FXML
     private void initialize() {
-        userTable.getColumns().forEach(this::setCellValueFactory);
-
-        userTable.setOnMousePressed(e -> {
-            if (e.isPrimaryButtonDown() && e.getClickCount() == 2) {
-                try {
-                    Desktop.getDesktop().browse(new URI(userTable.getSelectionModel().getSelectedItem().getTwitterUrl()));
-                } catch (URISyntaxException | IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        });
+        setTable(userTable);
 
         verifiedFilterButton.setOnAction(e -> {
             FilteredList<TwitUser> filteredData = new FilteredList<>(userList);
@@ -78,10 +69,6 @@ public class UserInfo {
             sortedData.comparatorProperty().bind(userTable.comparatorProperty());
             userTable.setItems(sortedData);
         });
-    }
-
-    private void setCellValueFactory(TableColumn<TwitUser, ?> column) {
-        column.setCellValueFactory(new PropertyValueFactory<>(column.getId()));
     }
 
     public void addUser(User user) {

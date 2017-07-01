@@ -1,16 +1,12 @@
 package hendrix11;
 
+import hendrix11.controller.Retweeter;
+import hendrix11.controller.UserInfo;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
@@ -30,6 +26,9 @@ public class TwitMain extends Application {
 
     @FXML
     private UserInfo followerTableController;
+
+    @FXML
+    private Retweeter retweeterController;
 
     public static Twitter getTwitter(String key, String secret, String token, String tokenSecret) {
 
@@ -72,7 +71,7 @@ public class TwitMain extends Application {
     }
 
     @FXML
-    private void initialize() throws IOException {
+    private void initialize() throws IOException, TwitterException {
         Twitter twitter = joesGithubBlog();
         List<Long> followers = getFollowers(twitter);
         List<Long> following = getFollowing(twitter);
@@ -98,6 +97,8 @@ public class TwitMain extends Application {
                 break;
             }
         }//);
+
+        retweeterController.setQuery(twitter);
     }
 
     private List<Long> getFollowers(Twitter twitter) {

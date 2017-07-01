@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<VBox xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hendrix11.controller.Retweeter">
+    <HBox>
+        <Label text="Search Twitter:" />
+        <TextField />
+    </HBox>
+    <TableView fx:id="tweetsTable" prefWidth="1500" maxWidth="1500" minWidth="1500">
+        <columns>
+            <TableColumn fx:id="user" text="User"  />
+            <TableColumn fx:id="numRetweets" text="Number of Retweets"  />
+            <TableColumn fx:id="followed" text="Followed"  />
+            <TableColumn fx:id="text" text="Text" />
+        </columns>
+    </TableView>
+</VBox>
