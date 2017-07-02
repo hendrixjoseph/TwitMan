@@ -1,12 +1,11 @@
 package hendrix11.wrapper;
 
-import twitter4j.Twitter;
 import twitter4j.User;
 
 /**
  * Created by Joe on 5/17/2017.
  */
-public class TwitUser implements MasterWrapper {
+public class TwitUser extends TwitWrapper {
     private static int count = 0;
 
     private User user;
@@ -61,5 +60,17 @@ public class TwitUser implements MasterWrapper {
 
     public String getDescription() {
         return user.getDescription().replaceAll("[\\r\\n]+"," ").trim();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o ||
+                (o != null && o instanceof TwitUser
+                        && ((TwitUser)o).getScreenName().equals(getScreenName()));
+    }
+
+    @Override
+    public int hashCode() {
+        return user != null ? user.getScreenName().hashCode() : 0;
     }
 }

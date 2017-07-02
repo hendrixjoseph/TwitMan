@@ -1,7 +1,8 @@
 package hendrix11;
 
 import hendrix11.controller.Retweeter;
-import hendrix11.controller.UserInfo;
+import hendrix11.controller.UserTable;
+import hendrix11.wrapper.TwitWrapper;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,11 +22,17 @@ import java.util.Properties;
  */
 public class TwitMain extends Application {
 
-    @FXML
-    private UserInfo followingTableController;
+    private static Twitter twitter;
+
+    public static Twitter getTwitter() {
+        return twitter;
+    }
 
     @FXML
-    private UserInfo followerTableController;
+    private UserTable followingTableController;
+
+    @FXML
+    private UserTable followerTableController;
 
     @FXML
     private Retweeter retweeterController;
@@ -72,7 +79,7 @@ public class TwitMain extends Application {
 
     @FXML
     private void initialize() throws IOException, TwitterException {
-        Twitter twitter = joesGithubBlog();
+        twitter = joesGithubBlog();
         List<Long> followers = getFollowers(twitter);
         List<Long> following = getFollowing(twitter);
 
@@ -98,7 +105,8 @@ public class TwitMain extends Application {
             }
         }//);
 
-        retweeterController.setQuery(twitter);
+        TwitWrapper.setFollowedFunction(followingTableController::containsUser);
+        TwitWrapper.setFollowerFunction(followerTableController::containsUser);
     }
 
     private List<Long> getFollowers(Twitter twitter) {

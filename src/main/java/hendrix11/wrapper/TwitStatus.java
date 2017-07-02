@@ -1,6 +1,7 @@
 package hendrix11.wrapper;
 
 import twitter4j.Status;
+import twitter4j.User;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,19 +9,24 @@ import java.util.stream.Collectors;
 /**
  * Created by Joe on 6/30/2017.
  */
-public class TwitStatus implements MasterWrapper {
+public class TwitStatus extends TwitWrapper {
     private Status status;
 
     public static List<TwitStatus> listify(List<Status> statusList) {
         return statusList.stream().map(TwitStatus::new).collect(Collectors.toList());
     }
 
+
     public TwitStatus(Status status) {
         this.status = status;
     }
 
-    public String getUser() {
+    public String getScreenName() {
         return status.getUser().getScreenName();
+    }
+
+    public User getUser() {
+        return status.getUser();
     }
 
     public String getText() {
@@ -29,10 +35,6 @@ public class TwitStatus implements MasterWrapper {
 
     public int getNumRetweets() {
         return status.getRetweetCount();
-    }
-
-    public boolean isFollowed() {
-        return true;
     }
 
     @Override

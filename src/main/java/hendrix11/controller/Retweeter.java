@@ -1,12 +1,13 @@
 package hendrix11.controller;
 
+import hendrix11.TwitMain;
 import hendrix11.wrapper.TwitStatus;
 import hendrix11.wrapper.TwitUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import twitter4j.*;
 
@@ -22,6 +23,8 @@ import java.util.List;
  */
 public class Retweeter extends TableHolder<TwitStatus> {
     @FXML
+    private TextField searchField;
+    @FXML
     private TableView<TwitStatus> tweetsTable;
     private ObservableList<TwitStatus> tweetsList = FXCollections.observableArrayList();
 
@@ -30,13 +33,24 @@ public class Retweeter extends TableHolder<TwitStatus> {
         setTable(tweetsTable);
     }
 
-    public void setQuery(Twitter twitter) throws TwitterException {
-        Query query = new Query("hello");
+    @FXML
+    private void search() {
+        search(searchField.getText());
+    }
 
-        query.setResultType(Query.RECENT);
-        query.setCount(10);
-        QueryResult result = twitter.search(query);
-        tweetsList.addAll(TwitStatus.listify(result.getTweets()));
-        tweetsTable.setItems(tweetsList);
+    private void search(String text) {
+        try {
+            Query query = new Query(text);
+
+            query.setResultType(Query.RECENT);
+            query.setCount(10);
+            QueryResult result = TwitMain.getTwitter().search(query);
+
+            tweetsList.clear();
+            tweetsList.addAll(TwitStatus.listify(result.getTweets()));
+            tweetsTable.setItems(tweetsList);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -20,7 +20,7 @@ import java.net.URISyntaxException;
 /**
  * Created by Joe on 5/8/2017.
  */
-public class UserInfo extends TableHolder<TwitUser> {
+public class UserTable extends TableHolder<TwitUser> {
 
     @FXML
     private Button verifiedFilterButton;
@@ -28,7 +28,7 @@ public class UserInfo extends TableHolder<TwitUser> {
     private TableView<TwitUser> userTable;
     private ObservableList<TwitUser> userList = FXCollections.observableArrayList();
 
-    public UserInfo() {
+    public UserTable() {
 
     }
 
@@ -74,5 +74,9 @@ public class UserInfo extends TableHolder<TwitUser> {
     public void addUser(User user) {
         userList.add(new TwitUser(user));
         userTable.setItems(userList);
+    }
+
+    public boolean containsUser(TwitUser user) {
+        return userList.contains(user);
     }
 }

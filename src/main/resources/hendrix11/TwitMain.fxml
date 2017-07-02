@@ -10,10 +10,10 @@
         <VBox>
             <TabPane>
                 <Tab closable="false" text="Following">
-                    <fx:include fx:id="followingTable" source="UserInfo.fxml"/>
+                    <fx:include fx:id="followingTable" source="UserTable.fxml"/>
                 </Tab>
                 <Tab closable="false" text="Followers">
-                    <fx:include fx:id="followerTable" source="UserInfo.fxml"/>
+                    <fx:include fx:id="followerTable" source="UserTable.fxml"/>
                 </Tab>
                 <Tab closable="false" text="Tweet Scheduler">
 

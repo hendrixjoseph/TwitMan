@@ -1,6 +1,6 @@
 package hendrix11.controller;
 
-import hendrix11.wrapper.MasterWrapper;
+import hendrix11.wrapper.TwitWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
@@ -15,7 +15,7 @@ import java.net.URISyntaxException;
 /**
  * Created by Joe on 6/30/2017.
  */
-public class TableHolder<R extends MasterWrapper> {
+public class TableHolder<R extends TwitWrapper> {
     private TableView<R> table;
     private ObservableList<R> list = FXCollections.observableArrayList();
 

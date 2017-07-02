@@ -6,16 +6,19 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Button?>
 <VBox xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hendrix11.controller.Retweeter">
     <HBox>
         <Label text="Search Twitter:" />
-        <TextField />
+        <TextField fx:id="searchField" />
+        <Button text="search" onAction="#search" />
     </HBox>
     <TableView fx:id="tweetsTable" prefWidth="1500" maxWidth="1500" minWidth="1500">
         <columns>
-            <TableColumn fx:id="user" text="User"  />
+            <TableColumn fx:id="screenName" text="User"  />
             <TableColumn fx:id="numRetweets" text="Number of Retweets"  />
             <TableColumn fx:id="followed" text="Followed"  />
+            <TableColumn fx:id="follower" text="Follower"  />
             <TableColumn fx:id="text" text="Text" />
         </columns>
     </TableView>

@@ -8,12 +8,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
 <VBox xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="hendrix11.controller.UserInfo">
+      fx:controller="hendrix11.controller.UserTable">
     <Button text="All" fx:id="verifiedFilterButton" />
 <TableView fx:id="userTable" prefWidth="1500" maxWidth="1500" minWidth="1500">
     <columns>
         <TableColumn fx:id="number" text="Count Id"  />
         <TableColumn fx:id="id" text="User Id" />
+        <TableColumn fx:id="followed" text="Followed"  />
+        <TableColumn fx:id="follower" text="Follower"  />
         <TableColumn fx:id="verified" text="Verified" />
         <TableColumn fx:id="followersCount" text="# Followers" />
         <TableColumn fx:id="friendsCount" text="# Following" />
