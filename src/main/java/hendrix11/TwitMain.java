@@ -14,6 +14,7 @@ import twitter4j.conf.ConfigurationBuilder;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -80,8 +81,8 @@ public class TwitMain extends Application {
     @FXML
     private void initialize() throws IOException, TwitterException {
         twitter = joesGithubBlog();
-        List<Long> followers = getFollowers(twitter);
-        List<Long> following = getFollowing(twitter);
+        List<Long> followers = getFollowers();
+        List<Long> following = getFollowing();
 
         //followers.forEach(follower -> {
         for(long follower : followers) {
@@ -94,22 +95,21 @@ public class TwitMain extends Application {
             }
         }//);
 
-        //followers.forEach(follower -> {
-        for(long follower : following) {
+        followers.forEach(follower -> {
             try {
                 User user = twitter.showUser(follower);
                 followingTableController.addUser(user);
             } catch (TwitterException e) {
                 e.printStackTrace();
-                break;
+                System.exit(0);
             }
-        }//);
+        });
 
         TwitWrapper.setFollowedFunction(followingTableController::containsUser);
         TwitWrapper.setFollowerFunction(followerTableController::containsUser);
     }
 
-    private List<Long> getFollowers(Twitter twitter) {
+    private List<Long> getFollowers() {
         long cursor2 = -1;
         IDs friends;
         List<Long> following = new ArrayList<>();
@@ -128,13 +128,14 @@ public class TwitMain extends Application {
         return following.subList(0,10);
     }
 
-    private List<Long> getFollowing(Twitter twitter) {
+    private List<Long> getFollowing() {
         long cursor2 = -1;
         IDs friends;
         List<Long> following = new ArrayList<>();
         try {
             //do {
                 friends = twitter.getFriendsIDs(cursor2);
+
                 for (long id : friends.getIDs()) {
                     following.add(id);
                 }

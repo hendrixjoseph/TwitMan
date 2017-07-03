@@ -22,7 +22,7 @@ public class TwitStatus extends TwitWrapper {
     }
 
     public String getScreenName() {
-        return status.getUser().getScreenName();
+        return "@" + status.getUser().getScreenName();
     }
 
     public User getUser() {
