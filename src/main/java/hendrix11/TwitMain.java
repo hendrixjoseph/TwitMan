@@ -2,6 +2,7 @@ package hendrix11;
 
 import hendrix11.controller.Retweeter;
 import hendrix11.controller.UserTable;
+import hendrix11.wrapper.TwitUser;
 import hendrix11.wrapper.TwitWrapper;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -38,7 +39,7 @@ public class TwitMain extends Application {
     @FXML
     private Retweeter retweeterController;
 
-    public static Twitter getTwitter(String key, String secret, String token, String tokenSecret) {
+    private static Twitter getTwitter(String key, String secret, String token, String tokenSecret) {
 
         ConfigurationBuilder cb = new ConfigurationBuilder();
 
@@ -52,9 +53,9 @@ public class TwitMain extends Application {
         return tf.getInstance();
     }
 
-    public static Twitter joesGithubBlog() throws IOException {
+    private static Twitter getTwitter(String propertiesFile) throws IOException {
         Properties props = new Properties();
-        FileInputStream in = new FileInputStream("joesgithubblog.properties");
+        FileInputStream in = new FileInputStream(propertiesFile);
         props.load(in);
         in.close();
 
@@ -80,29 +81,16 @@ public class TwitMain extends Application {
 
     @FXML
     private void initialize() throws IOException, TwitterException {
-        twitter = joesGithubBlog();
+        twitter = getTwitter("puppysnuggles.properties");
         List<Long> followers = getFollowers();
         List<Long> following = getFollowing();
 
-        //followers.forEach(follower -> {
-        for(long follower : followers) {
-            try {
-                User user = twitter.showUser(follower);
-                followerTableController.addUser(user);
-            } catch (TwitterException e) {
-                e.printStackTrace();
-                break;
-            }
-        }//);
-
         followers.forEach(follower -> {
-            try {
-                User user = twitter.showUser(follower);
-                followingTableController.addUser(user);
-            } catch (TwitterException e) {
-                e.printStackTrace();
-                System.exit(0);
-            }
+                followerTableController.addUser(new TwitUser(follower));
+        });
+
+        following.forEach(follower -> {
+                followingTableController.addUser(new TwitUser(follower));
         });
 
         TwitWrapper.setFollowedFunction(followingTableController::containsUser);
@@ -114,18 +102,18 @@ public class TwitMain extends Application {
         IDs friends;
         List<Long> following = new ArrayList<>();
         try {
-            //do {
+            do {
             friends = twitter.getFollowersIDs(cursor2);
             for (long id : friends.getIDs()) {
                 following.add(id);
             }
-            //} while ((cursor2 = friends.getNextCursor()) != 0);
+            } while ((cursor2 = friends.getNextCursor()) != 0);
         } catch (TwitterException te) {
             te.printStackTrace();
             System.out.println("Failed to get friends' ids: " + te.getMessage());
         }
 
-        return following.subList(0,10);
+        return following;
     }
 
     private List<Long> getFollowing() {
@@ -133,18 +121,18 @@ public class TwitMain extends Application {
         IDs friends;
         List<Long> following = new ArrayList<>();
         try {
-            //do {
+            do {
                 friends = twitter.getFriendsIDs(cursor2);
 
                 for (long id : friends.getIDs()) {
                     following.add(id);
                 }
-            //} while ((cursor2 = friends.getNextCursor()) != 0);
+            } while ((cursor2 = friends.getNextCursor()) != 0);
         } catch (TwitterException te) {
             te.printStackTrace();
             System.out.println("Failed to get friends' ids: " + te.getMessage());
         }
 
-        return following.subList(0,10);
+        return following;//.subList(0,10);
     }
 }

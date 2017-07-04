@@ -1,6 +1,8 @@
 package hendrix11.wrapper;
 
+import hendrix11.TwitMain;
 import twitter4j.Status;
+import twitter4j.TwitterException;
 import twitter4j.User;
 
 import java.util.List;
@@ -21,12 +23,22 @@ public class TwitStatus extends TwitWrapper {
         this.status = status;
     }
 
+    public void retweet() {
+        try {
+            if (!status.isRetweetedByMe()) {
+                TwitMain.getTwitter().retweetStatus(status.getId());
+            }
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+    }
+
     public String getScreenName() {
         return "@" + status.getUser().getScreenName();
     }
 
-    public User getUser() {
-        return status.getUser();
+    public TwitUser getUser() {
+        return new TwitUser(status.getUser());
     }
 
     public String getText() {

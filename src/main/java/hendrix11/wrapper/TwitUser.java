@@ -1,6 +1,12 @@
 package hendrix11.wrapper;
 
+import hendrix11.TwitMain;
+import twitter4j.RateLimitStatus;
+import twitter4j.TwitterException;
 import twitter4j.User;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Joe on 5/17/2017.
@@ -8,50 +14,86 @@ import twitter4j.User;
 public class TwitUser extends TwitWrapper {
     private static int count = 0;
 
+    private static Map<Long, User> userHash = new HashMap<>();
+
+    private static RateLimitStatus rateLimitStatus;
+
+    private long userId;
     private User user;
     private int number;
 
     public TwitUser(User user) {
-        number = count++;
         this.user = user;
+        userId = user.getId();
+
+        if(userHash.get(userId) == null) {
+            userHash.put(userId, user);
+        }
     }
 
-    public TwitUser(User user, int number) {
+    public TwitUser(long userId) {
+        this(userId, count++);
+    }
+
+    public TwitUser(long userId, int number) {
         this.number = count = number;
-        this.user = user;
+        this.userId = userId;
+        loadUser();
     }
 
-    public User getUser() {
+    @Override
+    public TwitUser getUser() {
+        return this;
+    }
+
+    private User loadUser() {
+        if(user == null) {
+            if(userHash.get(userId) == null) {
+                try {
+                    if(rateLimitStatus == null || rateLimitStatus.getRemaining() > 0) {
+                        user = TwitMain.getTwitter().showUser(userId);
+                        rateLimitStatus = user.getRateLimitStatus();
+                    }
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                    rateLimitStatus = e.getRateLimitStatus();
+                }
+                userHash.put(userId, user);
+            } else {
+                user = userHash.get(userId);
+            }
+        }
+
         return user;
     }
 
     public String getName() {
-        return user.getName();
+        return loadUser() != null ? user.getName() : "loading...";
     }
 
     public String getScreenName() {
-        return "@" + user.getScreenName();
+        return loadUser() != null ? "@" + user.getScreenName() : "loading...";
     }
 
     @Override
     public String getTwitterUrl() {
-        return "https://twitter.com/" + user.getScreenName();
+        return loadUser() != null ? "https://twitter.com/" + user.getScreenName() : "loading...";
     }
 
     public long getId() {
-        return user.getId();
+        return userId;
     }
 
     public int getFollowersCount() {
-        return user.getFollowersCount();
+        return loadUser() != null ? user.getFollowersCount() : 0;
     }
 
     public int getFriendsCount() {
-        return user.getFriendsCount();
+        return loadUser() != null ? user.getFriendsCount() : 0;
     }
 
     public boolean isVerified() {
-        return user.isVerified();
+        return loadUser() != null ? user.isVerified() : false;
     }
 
     public int getNumber() {
@@ -59,18 +101,18 @@ public class TwitUser extends TwitWrapper {
     }
 
     public String getDescription() {
-        return user.getDescription().replaceAll("[\\r\\n]+"," ").trim();
+        return loadUser() != null ? user.getDescription().replaceAll("[\\r\\n]+"," ").trim() : "loading...";
     }
 
     @Override
     public boolean equals(Object o) {
         return this == o ||
                 (o != null && o instanceof TwitUser
-                        && ((TwitUser)o).getScreenName().equals(getScreenName()));
+                        && ((TwitUser)o).getId() == getId());
     }
 
     @Override
     public int hashCode() {
-        return user != null ? user.getScreenName().hashCode() : 0;
+        return Long.hashCode(userId);
     }
 }

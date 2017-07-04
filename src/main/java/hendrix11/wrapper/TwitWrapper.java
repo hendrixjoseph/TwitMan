@@ -22,13 +22,13 @@ public abstract class TwitWrapper {
     }
 
     public boolean isFollowed() {
-        return isFollowed != null && isFollowed.apply(new TwitUser(getUser()));
+        return isFollowed != null && isFollowed.apply(getUser());
     }
 
     public boolean isFollower() {
-        return isFollower != null && isFollower.apply(new TwitUser(getUser()));
+        return isFollower != null && isFollower.apply(getUser());
     }
 
-    public abstract User getUser();
+    public abstract TwitUser getUser();
     public abstract String getTwitterUrl();
 }

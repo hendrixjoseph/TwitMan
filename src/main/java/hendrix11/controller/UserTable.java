@@ -71,8 +71,8 @@ public class UserTable extends TableHolder<TwitUser> {
         });
     }
 
-    public void addUser(User user) {
-        userList.add(new TwitUser(user));
+    public void addUser(TwitUser user) {
+        userList.add(user);
         userTable.setItems(userList);
     }
 

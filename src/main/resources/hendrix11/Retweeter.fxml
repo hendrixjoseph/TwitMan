@@ -38,6 +38,8 @@
             <Label text="Exclude text:"/>
             <TextField fx:id="excludeText"/>
             <Button text="refine" onAction="#refine"/>
+            <Button text="Retweet these" onAction="#retweet" />
+            <Button text="Schedule retweets" onAction="#scheduled" />
         </HBox>
     </HBox>
     <TableView fx:id="tweetsTable" maxWidth="1500" minWidth="1500" prefWidth="1500">
